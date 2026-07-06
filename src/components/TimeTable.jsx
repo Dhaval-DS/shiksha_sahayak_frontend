@@ -2,62 +2,65 @@ import React, { useState } from "react";
 import { jsPDF } from "jspdf";
 import DashboardHeader from "../components/DashboardHeader";
 import { Plus, Download, X, Calendar as CalendarIcon, Clock, Users, MapPin } from "lucide-react";
+import { useLanguage } from '../context/LanguageContext'; 
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// Updated to use Slate instead of Gray for better UI consistency
+// ✅ FIXED: Replaced generic subjects with specific SSC Primary Subjects
 const subjectColors = {
-  "Mathematics": "bg-blue-50 text-blue-700 border-blue-100",
-  "Science": "bg-emerald-50 text-emerald-700 border-emerald-100",
+  "Marathi (First Language)": "bg-orange-50 text-orange-700 border-orange-100",
+  "Hindi (Second Language)": "bg-pink-50 text-pink-700 border-pink-100",
   "English": "bg-purple-50 text-purple-700 border-purple-100",
-  "Social Studies": "bg-amber-50 text-amber-700 border-amber-100",
-  "Hindi": "bg-pink-50 text-pink-700 border-pink-100",
-  "Art": "bg-indigo-50 text-indigo-700 border-indigo-100",
-  "Computer Science": "bg-cyan-50 text-cyan-700 border-cyan-100",
-  "Music": "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-100",
+  "Mathematics": "bg-blue-50 text-blue-700 border-blue-100",
+  "EVS": "bg-emerald-50 text-emerald-700 border-emerald-100",
+  "EVS - Part 1": "bg-emerald-50 text-emerald-700 border-emerald-100",
+  "EVS - Part 2": "bg-teal-50 text-teal-700 border-teal-100",
+  "Play, Do, Learn": "bg-yellow-50 text-yellow-700 border-yellow-100",
   "Physical Education": "bg-lime-50 text-lime-700 border-lime-100",
-  "Games": "bg-orange-50 text-orange-700 border-orange-100",
+  "Arts/Work Experience": "bg-fuchsia-50 text-fuchsia-700 border-fuchsia-100",
+  "Computer Science": "bg-cyan-50 text-cyan-700 border-cyan-100",
+  "Music": "bg-violet-50 text-violet-700 border-violet-100",
   "Study Period": "bg-slate-100 text-slate-700 border-slate-200",
-  "Library Period": "bg-yellow-50 text-yellow-700 border-yellow-100",
+  "Library Period": "bg-indigo-50 text-indigo-700 border-indigo-100",
   "Free Period": "bg-white text-slate-400 border-slate-100 border-dashed",
-  "Assembly": "bg-blue-50 text-blue-700 border-blue-100",
+  "Assembly": "bg-amber-50 text-amber-700 border-amber-100",
   "Parent Meeting": "bg-rose-50 text-rose-700 border-rose-100",
+  "Break": "bg-slate-100 text-slate-600 border-slate-200",
   "Lunch Break": "bg-slate-100 text-slate-600 border-slate-200",
-  "Half Day": "bg-slate-100 text-slate-600 border-slate-200",
-  "Science Lab": "bg-cyan-50 text-cyan-700 border-cyan-100",
-  "Art & Craft": "bg-violet-50 text-violet-700 border-violet-100",
-  "Study Hall": "bg-slate-100 text-slate-700 border-slate-200",
-  "Break": "bg-slate-100 text-slate-600 border-slate-200"
+  "Half Day": "bg-slate-100 text-slate-600 border-slate-200"
 };
 
 const Timetable = () => {
+  const { t } = useLanguage(); 
+
+  // ✅ FIXED: Default data now uses realistic Indian Primary School subjects
   const initialTimetable = [
     {
       time: "08:00 - 08:45",
-      Monday: { subject: "Mathematics", class: "7A", room: "Room 12" },
-      Tuesday: { subject: "Science", class: "7A", room: "Lab 2" },
-      Wednesday: { subject: "Social Studies", class: "7A", room: "Room 10" },
-      Thursday: { subject: "Hindi", class: "9B", room: "Room 18" },
-      Friday: { subject: "Social Studies", class: "7A", room: "Room 16" },
+      Monday: { subject: "Mathematics", class: "Grade 4", room: "Room 12" },
+      Tuesday: { subject: "EVS - Part 1", class: "Grade 4", room: "Room 12" },
+      Wednesday: { subject: "Marathi (First Language)", class: "Grade 4", room: "Room 12" },
+      Thursday: { subject: "English", class: "Grade 4", room: "Room 12" },
+      Friday: { subject: "Marathi (First Language)", class: "Grade 4", room: "Room 12" },
       Saturday: { subject: "Parent Meeting", class: "", room: "Staff Room" }
     },
     {
       time: "08:45 - 09:30",
-      Monday: { subject: "Hindi", class: "9B", room: "Room 12" },
-      Tuesday: { subject: "Mathematics", class: "9B", room: "Room 15" },
-      Wednesday: { subject: "Science", class: "9B", room: "Lab 2" },
+      Monday: { subject: "English", class: "Grade 4", room: "Room 12" },
+      Tuesday: { subject: "Mathematics", class: "Grade 4", room: "Room 12" },
+      Wednesday: { subject: "EVS - Part 2", class: "Grade 4", room: "Room 12" },
       Thursday: { subject: "Free Period", class: "", room: "" },
-      Friday: { subject: "Mathematics", class: "7A", room: "Room 12" },
-      Saturday: { subject: "Science", class: "7B", room: "Lab 1" }
+      Friday: { subject: "Mathematics", class: "Grade 4", room: "Room 12" },
+      Saturday: { subject: "EVS - Part 1", class: "Grade 4", room: "Room 12" }
     },
     {
       time: "09:30 - 10:15",
-      Monday: { subject: "Science", class: "8A", room: "Lab 1" },
-      Tuesday: { subject: "English", class: "8A", room: "Room 15" },
-      Wednesday: { subject: "Mathematics", class: "8A", room: "Room 12" },
-      Thursday: { subject: "Art", class: "8A", room: "Art Room" },
-      Friday: { subject: "Computer Science", class: "8A", room: "Computer Lab" },
-      Saturday: { subject: "English", class: "9A", room: "Room 15" }
+      Monday: { subject: "Play, Do, Learn", class: "Grade 4", room: "Playground" },
+      Tuesday: { subject: "English", class: "Grade 4", room: "Room 12" },
+      Wednesday: { subject: "Mathematics", class: "Grade 4", room: "Room 12" },
+      Thursday: { subject: "Arts/Work Experience", class: "Grade 4", room: "Art Room" },
+      Friday: { subject: "Computer Science", class: "Grade 4", room: "Lab 1" },
+      Saturday: { subject: "English", class: "Grade 4", room: "Room 12" }
     },
     {
       time: "10:15 - 10:30",
@@ -70,30 +73,30 @@ const Timetable = () => {
     },
     {
       time: "10:30 - 11:15",
-      Monday: { subject: "Science Lab", class: "8A", room: "Lab 1" },
-      Tuesday: { subject: "Art & Craft", class: "8A", room: "Art Room" },
-      Wednesday: { subject: "Music", class: "All", room: "Music Room" },
+      Monday: { subject: "EVS - Part 1", class: "Grade 4", room: "Room 12" },
+      Tuesday: { subject: "Arts/Work Experience", class: "Grade 4", room: "Art Room" },
+      Wednesday: { subject: "Music", class: "Grade 4", room: "Music Room" },
       Thursday: { subject: "Half Day", class: "", room: "" },
-      Friday: { subject: "Physical Education", class: "All", room: "Playground" },
-      Saturday: { subject: "Hindi", class: "9A", room: "Room 18" }
+      Friday: { subject: "Physical Education", class: "Grade 4", room: "Playground" },
+      Saturday: { subject: "Marathi (First Language)", class: "Grade 4", room: "Room 12" }
     },
     {
       time: "11:15 - 12:00",
-      Monday: { subject: "Music", class: "All", room: "Music Room" },
-      Tuesday: { subject: "Physical Education", class: "All", room: "Playground" },
-      Wednesday: { subject: "Computer Science", class: "8A", room: "Computer Lab" },
-      Thursday: { subject: "Games", class: "All", room: "Playground" },
-      Friday: { subject: "Study Period", class: "9A", room: "Library" },
-      Saturday: { subject: "Social Studies", class: "9A", room: "Room 10" }
+      Monday: { subject: "Music", class: "Grade 4", room: "Music Room" },
+      Tuesday: { subject: "Physical Education", class: "Grade 4", room: "Playground" },
+      Wednesday: { subject: "Computer Science", class: "Grade 4", room: "Lab 1" },
+      Thursday: { subject: "Play, Do, Learn", class: "Grade 4", room: "Playground" },
+      Friday: { subject: "Study Period", class: "Grade 4", room: "Library" },
+      Saturday: { subject: "EVS - Part 2", class: "Grade 4", room: "Room 12" }
     },
     {
       time: "12:00 - 12:45",
-      Monday: { subject: "Library Period", class: "7B", room: "Library" },
-      Tuesday: { subject: "Study Hall", class: "7B", room: "Library" },
-      Wednesday: { subject: "Assembly", class: "All", room: "Hall" },
+      Monday: { subject: "Library Period", class: "Grade 4", room: "Library" },
+      Tuesday: { subject: "Study Period", class: "Grade 4", room: "Library" },
+      Wednesday: { subject: "Assembly", class: "Grade 4", room: "Hall" },
       Thursday: { subject: "Free Period", class: "", room: "" },
-      Friday: { subject: "Science", class: "9A", room: "Lab 1" },
-      Saturday: { subject: "Mathematics", class: "8A", room: "Room 12" }
+      Friday: { subject: "EVS - Part 1", class: "Grade 4", room: "Room 12" },
+      Saturday: { subject: "Mathematics", class: "Grade 4", room: "Room 12" }
     },
     {
       time: "12:45 - 13:30",
@@ -182,33 +185,33 @@ const Timetable = () => {
       // Title
       doc.setFontSize(18);
       doc.setTextColor(255, 255, 255);
+      // Translated PDF Title
       doc.text("Shiksha Sahayak", pageWidth / 2, 15, { align: "center" });
       
-      // Subtitle
       doc.setFontSize(10);
       doc.setTextColor(200, 200, 200);
-      doc.text("Weekly Timetable", pageWidth / 2, 22, { align: "center" });
+      doc.text(t('timetable_management'), pageWidth / 2, 22, { align: "center" });
 
       yPosition = 35;
 
-      // Draw table header
-      doc.setFillColor(79, 70, 229); // Indigo-600
+      doc.setFillColor(79, 70, 229); 
       doc.rect(margin, yPosition, tableWidth, 8, 'F');
       
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(9);
       doc.setFont(undefined, 'bold');
       
-      doc.text("Time", margin + (colWidth / 2), yPosition + 5, { align: "center" });
+      // Translate the word "Time"
+      doc.text(t('time_label'), margin + (colWidth / 2), yPosition + 5, { align: "center" });
       
+      // Translate all Days of the week in the PDF
       days.forEach((day, index) => {
         const x = margin + colWidth + (index * colWidth);
-        doc.text(day, x + (colWidth / 2), yPosition + 5, { align: "center" });
+        doc.text(t(day), x + (colWidth / 2), yPosition + 5, { align: "center" });
       });
 
       yPosition += 8;
 
-      // Draw table rows
       timetable.forEach((slot, rowIndex) => {
         if (rowIndex % 2 === 0) {
           doc.setFillColor(248, 250, 252);
@@ -218,26 +221,25 @@ const Timetable = () => {
         doc.setDrawColor(226, 232, 240);
         doc.setLineWidth(0.1);
         
-        // Time cell
         doc.rect(margin, yPosition, colWidth, 15);
-        doc.setTextColor(79, 70, 229); // Indigo-600
+        doc.setTextColor(79, 70, 229); 
         doc.setFont(undefined, 'bold');
         doc.setFontSize(8);
         doc.text(slot.time, margin + (colWidth / 2), yPosition + 8, { align: "center" });
 
-        // Day cells
         days.forEach((day, dayIndex) => {
           const x = margin + colWidth + (dayIndex * colWidth);
           doc.rect(x, yPosition, colWidth, 15);
           
           const cell = slot[day];
           if (cell?.subject) {
-            doc.setTextColor(30, 41, 59); // Slate-800
+            doc.setTextColor(30, 41, 59); 
             doc.setFont(undefined, 'normal');
             let textY = yPosition + 4;
             
             doc.setFontSize(7);
-            const subjectLines = doc.splitTextToSize(cell.subject, colWidth - 4);
+            // Translate the Subject in the PDF
+            const subjectLines = doc.splitTextToSize(t(cell.subject), colWidth - 4);
             subjectLines.forEach(line => {
               doc.text(line, x + (colWidth / 2), textY, { align: "center" });
               textY += 3;
@@ -245,8 +247,8 @@ const Timetable = () => {
             
             if (cell.class || cell.room) {
               const details = [];
-              if (cell.class) details.push(cell.class);
-              if (cell.room) details.push(cell.room);
+              if (cell.class) details.push(t(cell.class));
+              if (cell.room) details.push(t(cell.room)); // If room has a translation
               
               doc.setFontSize(6);
               const detailsText = details.join(' - ');
@@ -257,9 +259,9 @@ const Timetable = () => {
               });
             }
           } else {
-            doc.setTextColor(148, 163, 184); // Slate-400
+            doc.setTextColor(148, 163, 184); 
             doc.setFontSize(7);
-            doc.text("Free", x + (colWidth / 2), yPosition + 8, { align: "center" });
+            doc.text(t('free_period_short'), x + (colWidth / 2), yPosition + 8, { align: "center" });
           }
         });
 
@@ -274,10 +276,10 @@ const Timetable = () => {
           doc.setTextColor(255, 255, 255);
           doc.setFontSize(9);
           doc.setFont(undefined, 'bold');
-          doc.text("Time", margin + (colWidth / 2), yPosition + 5, { align: "center" });
+          doc.text(t('time_label'), margin + (colWidth / 2), yPosition + 5, { align: "center" });
           days.forEach((day, index) => {
             const x = margin + colWidth + (index * colWidth);
-            doc.text(day, x + (colWidth / 2), yPosition + 5, { align: "center" });
+            doc.text(t(day), x + (colWidth / 2), yPosition + 5, { align: "center" });
           });
           yPosition += 8;
         }
@@ -285,7 +287,7 @@ const Timetable = () => {
 
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
-      doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: "center" });
+      doc.text(`${t('generated_on')} ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: "center" });
 
       doc.save("Shiksha_Sahayak_Timetable.pdf");
     } catch (error) {
@@ -310,8 +312,8 @@ const Timetable = () => {
         {/* 🔷 Page Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Timetable Management</h1>
-            <p className="text-slate-500 mt-1">Manage and export your professional weekly schedule</p>
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">{t('timetable_management')}</h1>
+            <p className="text-slate-500 mt-1">{t('timetable_management_sub')}</p>
           </div>
           
           <div className="flex gap-3 w-full md:w-auto">
@@ -319,7 +321,7 @@ const Timetable = () => {
               onClick={() => setShowAddForm(true)}
               className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-50 transition-all shadow-sm"
             >
-              <Plus size={18} /> New Subject
+              <Plus size={18} /> {t('new_subject')}
             </button>
             <button 
               onClick={handleExportPDF}
@@ -331,7 +333,7 @@ const Timetable = () => {
               ) : (
                 <Download size={18} />
               )}
-              {exporting ? 'Exporting...' : 'Export PDF'}
+              {exporting ? t('exporting') : t('export_pdf')}
             </button>
           </div>
         </div>
@@ -343,11 +345,11 @@ const Timetable = () => {
               <thead>
                 <tr>
                   <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-left bg-slate-50 rounded-2xl w-32">
-                    Time
+                    {t('time_label')}
                   </th>
                   {days.map(day => (
                     <th key={day} className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-center bg-slate-50 rounded-2xl min-w-[140px]">
-                      {day}
+                      {t(day)}
                     </th>
                   ))}
                 </tr>
@@ -375,17 +377,18 @@ const Timetable = () => {
                           {cell?.subject ? (
                             <div className="flex flex-col items-center text-center h-full justify-center space-y-1.5">
                               <span className="font-extrabold text-sm leading-tight">
-                                {cell.subject}
+                                {/* Wrap subject in translation */}
+                                {t(cell.subject)}
                               </span>
                               
                               <div className="flex items-center gap-2 text-[10px] font-bold opacity-80">
-                                {cell.class && <span className="flex items-center gap-0.5"><Users size={10}/>{cell.class}</span>}
+                                {cell.class && <span className="flex items-center gap-0.5"><Users size={10}/>{t(cell.class)}</span>}
                                 {cell.room && <span className="flex items-center gap-0.5"><MapPin size={10}/>{cell.room}</span>}
                               </div>
 
                               {cell.inProgress && (
                                 <span className="mt-1 text-[9px] px-2 py-0.5 rounded-full bg-indigo-600 text-white font-bold uppercase tracking-wider">
-                                  In Progress
+                                  {t('in_progress_badge')}
                                 </span>
                               )}
                             </div>
@@ -407,7 +410,7 @@ const Timetable = () => {
         {/* 🔷 Subject Legend */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-5 flex items-center gap-2">
-            <CalendarIcon size={14}/> Subject Color Legend
+            <CalendarIcon size={14}/> {t('subject_color_legend')}
           </h3>
           <div className="flex flex-wrap gap-3">
             {Object.entries(subjectColors).map(([subject, color]) => (
@@ -416,7 +419,7 @@ const Timetable = () => {
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border font-bold text-xs ${color}`}
               >
                 <div className="w-2 h-2 rounded-full bg-current opacity-50"></div>
-                {subject}
+                {t(subject)}
               </div>
             ))}
           </div>
@@ -433,25 +436,22 @@ const Timetable = () => {
             
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <div>
-                <h3 className="text-lg font-black text-slate-900">Edit Period</h3>
-                <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mt-1">{editing.day} • {editing.timeSlot}</p>
+                <h3 className="text-lg font-black text-slate-900">{t('edit_period')}</h3>
+                <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mt-1">{t(editing.day)} • {editing.timeSlot}</p>
               </div>
               <button onClick={() => setEditing({ timeSlot: null, day: null })} className="p-2 hover:bg-slate-200 rounded-full text-slate-400 transition-colors"><X size={20}/></button>
             </div>
 
             <div className="p-6 space-y-5">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Subject</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('subject')}</label>
                 <select
                   value={subjectInput}
                   onChange={e => setSubjectInput(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-slate-700 bg-slate-50"
                 >
-                  <option value="">Select Subject (Or Clear)</option>
-                  <option value="Break">Break</option>
-                  <option value="Lunch Break">Lunch Break</option>
-                  <option value="Free Period">Free Period</option>
-                  {allSubjects.map(subject => <option key={subject} value={subject}>{subject}</option>)}
+                  <option value="">{t('select_subject_clear')}</option>
+                  {allSubjects.map(subject => <option key={subject} value={subject}>{t(subject)}</option>)}
                 </select>
               </div>
 
@@ -459,14 +459,14 @@ const Timetable = () => {
                 <>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Class</label>
+                      <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('class_label')}</label>
                       <input
                         type="text" placeholder="e.g. 7A" value={classInput} onChange={e => setClassInput(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none font-semibold text-slate-700 bg-slate-50"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Room / Lab</label>
+                      <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('room_lab')}</label>
                       <input
                         type="text" placeholder="e.g. Lab 2" value={roomInput} onChange={e => setRoomInput(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none font-semibold text-slate-700 bg-slate-50"
@@ -476,7 +476,7 @@ const Timetable = () => {
                   
                   <label className="flex items-center gap-3 p-4 border border-slate-100 rounded-xl bg-slate-50 cursor-pointer">
                     <input type="checkbox" checked={inProgress} onChange={e => setInProgress(e.target.checked)} className="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
-                    <span className="text-sm font-bold text-slate-700">Mark as "In Progress"</span>
+                    <span className="text-sm font-bold text-slate-700">{t('mark_in_progress')}</span>
                   </label>
                 </>
               )}
@@ -484,11 +484,11 @@ const Timetable = () => {
 
             <div className="p-6 border-t border-slate-100 bg-slate-50 flex gap-3">
               {timetable.find(slot => slot.time === editing.timeSlot)?.[editing.day]?.subject && (
-                <button onClick={handleRemove} className="px-6 py-3 text-rose-600 font-bold hover:bg-rose-50 rounded-xl transition-all border border-rose-100">Clear</button>
+                <button onClick={handleRemove} className="px-6 py-3 text-rose-600 font-bold hover:bg-rose-50 rounded-xl transition-all border border-rose-100">{t('clear')}</button>
               )}
               <div className="flex-1"></div>
-              <button onClick={() => setEditing({ timeSlot: null, day: null })} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-200 rounded-xl transition-all">Cancel</button>
-              <button onClick={handleSave} disabled={!subjectInput.trim()} className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-sm transition-all disabled:opacity-50">Save</button>
+              <button onClick={() => setEditing({ timeSlot: null, day: null })} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-200 rounded-xl transition-all">{t('cancel')}</button>
+              <button onClick={handleSave} disabled={!subjectInput.trim()} className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-sm transition-all disabled:opacity-50">{t('save_changes')}</button>
             </div>
           </div>
         </div>
@@ -503,15 +503,15 @@ const Timetable = () => {
             
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <div>
-                <h3 className="text-lg font-black text-slate-900">New Subject</h3>
-                <p className="text-xs font-bold text-slate-500 mt-1">Add a custom subject to your roster</p>
+                <h3 className="text-lg font-black text-slate-900">{t('new_subject')}</h3>
+                <p className="text-xs font-bold text-slate-500 mt-1">{t('add_custom_subject')}</p>
               </div>
               <button onClick={() => setShowAddForm(false)} className="p-2 hover:bg-slate-200 rounded-full text-slate-400 transition-colors"><X size={20}/></button>
             </div>
 
             <div className="p-6 space-y-5">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Subject Name</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('subject_name')}</label>
                 <input
                   type="text" placeholder="e.g. Robotics" value={newSubject.name} onChange={e => setNewSubject(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-slate-700 bg-slate-50"
@@ -519,13 +519,13 @@ const Timetable = () => {
               </div>
               
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Color Theme</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">{t('color_theme')}</label>
                 <select
                   value={newSubject.color}
                   onChange={e => setNewSubject(prev => ({ ...prev, color: e.target.value }))}
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none font-bold text-slate-700 bg-slate-50"
                 >
-                  <option value="">Select Color</option>
+                  <option value="">{t('select_color')}</option>
                   <option value="bg-blue-50 text-blue-700 border-blue-100">Blue</option>
                   <option value="bg-emerald-50 text-emerald-700 border-emerald-100">Green</option>
                   <option value="bg-purple-50 text-purple-700 border-purple-100">Purple</option>
@@ -536,7 +536,7 @@ const Timetable = () => {
             </div>
 
             <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button onClick={() => setShowAddForm(false)} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-200 rounded-xl transition-all">Cancel</button>
+              <button onClick={() => setShowAddForm(false)} className="px-6 py-3 text-slate-600 font-bold hover:bg-slate-200 rounded-xl transition-all">{t('cancel')}</button>
               <button 
                 onClick={() => {
                   if (!newSubject.name.trim()) return;
@@ -547,7 +547,7 @@ const Timetable = () => {
                 disabled={!newSubject.name.trim()}
                 className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-sm transition-all disabled:opacity-50 flex items-center gap-2"
               >
-                <Plus size={18}/> Add Subject
+                <Plus size={18}/> {t('add_subject')}
               </button>
             </div>
           </div>

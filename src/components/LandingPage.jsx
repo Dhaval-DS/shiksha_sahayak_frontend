@@ -4,6 +4,7 @@ import {
   ArrowRight, BookOpen, BrainCircuit, Users, 
   BarChart3, CheckCircle2, Sparkles, Zap, ShieldCheck 
 } from "lucide-react";
+import Header from "../components/Header"; // Make sure to import your Header!
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -11,16 +12,20 @@ function LandingPage() {
   return (
     <div className="flex flex-col items-center bg-slate-50 min-h-screen overflow-hidden font-sans relative">
       
+      {/* Include the Header here! */}
+      <Header />
+      
       {/* Decorative Background Glow */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-400/20 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute top-[20%] right-[-5%] w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* ================= HERO SECTION ================= */}
-      <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-16 relative z-10">
+      {/* 🚀 FIXED: Added pt-32 so the hero text clears the fixed header! */}
+      <div className="w-full max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-16 relative z-10">
         
         {/* LEFT SIDE - TEXT */}
         <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-sm mb-6 shadow-sm">
             <Sparkles size={16} /> Empowering Rural Educators
           </div>
           
@@ -40,7 +45,7 @@ function LandingPage() {
               Start Teaching Smarter <ArrowRight size={20} />
             </button>
             <button 
-              className="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-all flex items-center gap-2"
+              className="px-8 py-4 bg-white text-slate-700 border border-slate-200 shadow-sm rounded-xl font-bold hover:bg-slate-50 transition-all flex items-center gap-2"
             >
               View Demo
             </button>
@@ -49,7 +54,7 @@ function LandingPage() {
 
         {/* RIGHT SIDE - IMAGE */}
         <div className="w-full lg:w-1/2 flex justify-center relative">
-          <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-[2.5rem] transform rotate-3 scale-105 opacity-20 blur-lg"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-[2.5rem] transform rotate-3 scale-105 opacity-20 blur-xl"></div>
           <img
             src={edu}
             alt="Education"
@@ -68,7 +73,7 @@ function LandingPage() {
       </div>
 
       {/* ================= STATS BANNER ================= */}
-      <div className="w-full border-y border-slate-200 bg-white">
+      <div className="w-full border-y border-slate-200 bg-white relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-slate-100">
           <div className="text-center">
             <div className="text-indigo-600 text-4xl font-black mb-1">50K+</div>
@@ -90,7 +95,7 @@ function LandingPage() {
       </div>
 
       {/* ================= FEATURES SECTION ================= */}
-      <div className="w-full max-w-7xl mx-auto px-6 py-24">
+      <div className="w-full max-w-7xl mx-auto px-6 py-24 relative z-10">
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">
             Everything You Need for Modern Teaching
@@ -146,7 +151,7 @@ function LandingPage() {
       </div>
 
       {/* ================= CTA SECTION ================= */}
-      <div className="w-full max-w-5xl mx-auto px-6 py-24 text-center">
+      <div className="w-full max-w-5xl mx-auto px-6 py-24 text-center relative z-10">
         <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 rounded-[3rem] p-12 md:p-20 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
           
